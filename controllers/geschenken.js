@@ -11,28 +11,38 @@
  */
 
 // connecteer de datagegevens aan de controller
-const { sinterklaasGeschenken: geschenken } = require("../databank/data");
+const { sinterklaasGeschenken: geschenken, kinderen } = require("../databank/data");
+
 
 const lijstGeschenken = (req, res) => {
-  res.json(geschenken);
+  res.json(geschenken.map({status:"gelukt",data: (geschenk)=>geschenk.id + " "+geschenk.naam}));
 };
 
 const geschenkInfo = (req, res) => {
-  res.json({ status: "gelukt" });
+  const idGeschenk = req.params.ID
+  console.log(idGeschenk);
+  
+  res.json({ status: "gelukt", data:geschenken.filter((geschenk)=>geschenk.ID == idGeschenk) });
 };
 
 const geschenkToevoegen = (req, res) => {
+  let geschenkID = 0
+  geschenken.forEach(geschenk=>{
+    if(geschenkID<geschenk.id)geschenkID = item.ID
+  })
+  geschenkID++
   const newGeschenk = {
-    id: 15,
-    naam: "KarelKleintjes-tshirt",
-    categorie: "textiel",
-    prijs: 20.5,
+    id: geschenkID,
+    naam: req.body.naam,
+    categorie: req.body.categorie,
+    prijs: req.body.prijs,
   };
   geschenken.push(newGeschenk);
   res.json(newGeschenk);
 };
 
 const geschenkWissen = (req, res) => {
+  const idGeschenk = req.body.ID
   const geschenkToDel = geschenken.find(
     (geschenk) => geschenk.id == req.params.ID
   );
@@ -42,13 +52,13 @@ const geschenkWissen = (req, res) => {
   res.json({ resultaat: "gelukt" });
 };
 
-const newID = (lijstMetID) => {
-  lijstMetID.forEach((item) => {
-    maxID = 0;
-    item.id > maxID ? (maxID = item.id) : (maxID = maxID);
-  });
-  return maxID + 1;
-};
+// const newID = (lijstMetID) => {
+//   lijstMetID.forEach((item) => {
+//     maxID = 0;
+//     item.id > maxID ? (maxID = item.id) : (maxID = maxID);
+//   });
+//   return maxID + 1;
+// };
 
 module.exports = {
   lijstGeschenken,

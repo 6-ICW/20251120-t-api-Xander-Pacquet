@@ -9,3 +9,9 @@
  *
  * succes!!
  */
+
+const { sinterklaasGeschenken:  kinderen } = require("../databank/data")
+const getOne = (req,res)=>{
+    const idIte = req.params.id
+    res.json(alleItems.filter((item)=>item.ID ==idItem))
+}
