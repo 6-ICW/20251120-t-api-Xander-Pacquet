@@ -14,11 +14,12 @@
 const { sinterklaasGeschenken: geschenken } = require("../databank/data");
 
 const lijstGeschenken = (req, res) => {
-  res.json(geschenken);
+  res.json(geschenken.map({status:"gelukt",data: (geschenk)=>geschenk.naam + geschenk.id }));
 };
 
 const geschenkInfo = (req, res) => {
-  res.json({ status: "gelukt" });
+  const idGeschenk = req.params.id
+  res.json({ status: "gelukt", data:geschenken.filter((geschenk)=>geschenk.ID ==idGeschenk) });
 };
 
 const geschenkToevoegen = (req, res) => {
